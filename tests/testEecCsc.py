@@ -23,14 +23,10 @@ import asyncio
 import time
 import contextlib
 import unittest
-
-
-
-
 from lsst.ts import salobj
 from lsst.ts.salobj.base import AckError
+from lsst.ts.mteec.MtEecCsc import MtEecCsc as theCsc
 
-from lsst.ts.mteec.MtEecCsc import MtEecCsc   as theCsc
 
 @contextlib.contextmanager
 def assertRaisesAckError(ack=None, error=None):
@@ -56,9 +52,10 @@ def assertRaisesAckError(ack=None, error=None):
 class Harness:
     cscName = "SALOB_MTEEC"
     index = 0
+
     def __init__(self, initial_state):
-        self.csc = theCsc(index, initial_state=initial_state)
-        self.remote = salobj.Remote(self.cscName, index)
+        self.csc = theCsc(self.index, initial_state=initial_state)
+        self.remote = salobj.Remote(self.cscName, self.index)
 
 
 class CommunicateTestCase(unittest.TestCase):
@@ -70,16 +67,14 @@ class CommunicateTestCase(unittest.TestCase):
             await harness.remote.evt_heartbeat.next(timeout=2)
             await harness.remote.evt_heartbeat.next(timeout=2)
             duration = time.time() - start_time
-            self.assertLess(abs(duration - 2), 1.5) # not clear what this limit should be
-
+            self.assertLess(abs(duration - 2), 1.5)  # not clear what this limit should be
         asyncio.get_event_loop().run_until_complete(doit())
 
     def test_main(self):
         async def doit():
-            
             process = await asyncio.create_subprocess_exec("run_mteeccsc.py", str(self.index))
             try:
-                remote = salobj.Remote(SALPY_ATHexapod, index)
+                remote = salobj.Remote(self.cscName, self.index)
                 summaryState_data = await remote.evt_summaryState.next(flush=False, timeout=10)
                 self.assertEqual(summaryState_data.summaryState, salobj.State.STANDBY)
 
@@ -96,7 +91,6 @@ class CommunicateTestCase(unittest.TestCase):
 
         asyncio.get_event_loop().run_until_complete(doit())
 
- 
     def test_standard_state_transitions(self):
         """Test standard CSC state transitions.
 
@@ -147,7 +141,7 @@ class CommunicateTestCase(unittest.TestCase):
 
             for bad_command in commands:
                 if bad_command in ("disable", "applyPositionLimits", "moveToPosition", "setMaxSpeeds",
-                        "applyPositionOffset", "stopAllAxes", "pivot"):
+                                   "applyPositionOffset", "stopAllAxes", "pivot"):
                     continue  # valid command in DISABLED state
                 with self.subTest(bad_command=bad_command):
                     cmd_attr = getattr(harness.remote, f"cmd_{bad_command}")

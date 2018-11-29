@@ -18,15 +18,28 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+import SALPY_MTEEC
 import lsst.ts.salobj as salobj
+import enum
+
 
 __all__ = ["MtEecCsc"]
 
-import SALPY_MTEEC
+
+class MtEecState(enum.IntEnum):
+    """State constants. Should get these from SALPY?
+    """
+    NOTSET = SALPY_MTEEC.state_NotSet
+    """  detailed state not set  cannot be run."""
+    DAY = SALPY_MTEEC.state_Day
+    """Script is configured and so can be run."""
+    NIGHT = SALPY_MTEEC.state_Night
 
 
 class MtEecCsc(salobj.BaseCsc):
     """CSC  for the Environment Enclousure Control """
+
+    _state = MtEecState
 
     def __init__(self):
         """ not indexed - call up to super """
@@ -39,12 +52,65 @@ class MtEecCsc(salobj.BaseCsc):
 
     def do_disableControl(self, id_data):
         """ Check temp and see if we need to move up or downcaseTokens"""
-        self.assert_enabled("setTemeratureSetPoint")
+        self.assert_enabled("disableControl")
+        self._state.setState(MtEecState.NOTSET)
 
     def do_setToDayTime(self, id_data):
         """ Check temp and see if we need to move up or downcaseTokens"""
         self.assert_enabled("setToDayTime")
+        self.assert_state(MtEecState.NOTSET)
+        self._state.setState(MtEecState.DAY)
 
     def do_setToNightTime(self, id_data):
         """ Check temp and see if we need to move up or downcaseTokens"""
         self.assert_enabled("setToNightTIme")
+        self.assert_state(MtEecState.NOTSET)
+        self._state.setState(MtEecState.NIGHT)
+
+    @property
+    def state(self):
+        """Get the current state.
+        * ``state``: the current state; a `MtEecState`
+        """
+        return self._state
+
+    @property
+    def state_name(self):
+        """Get the current `state`.state as a name.
+        """
+        try:
+            return MtEecState(self.state.state).name
+        except ValueError:
+            return f"UNKNOWN({self.state.state})"
+
+    @property
+    def final_state_future(self):
+        """Get an asyncio.Future that returns the final state
+        of the script.
+        """
+        return self._final_state_future
+
+    def set_state(self, state=None):
+        """Set the script state.
+
+        Parameters
+        ----------
+        state : `MtEecState` (optional)
+            New state, or None if no change
+        """
+        if state is not None:
+            if state not in MtEecState:
+                raise ValueError(f"{state} is not in MtEecState")
+            self._state.state = state
+
+    def assert_state(self, state):
+        """Assert that the  state is as expected or throw an exception
+
+        Parameters
+        ----------
+        state :  `MtEecState`
+            The required state.
+        """
+        if self._state != state:
+            raise salobj.ExpectedError(
+                f"Unexpected state={self.state_name} instead of {MtEecState(state).name}")

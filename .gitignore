@@ -5,5 +5,5 @@ bin/
 pytest_session.txt
 *__pycache__*
 tests/.tests/
-
+version.py
 .cache

@@ -29,11 +29,11 @@ __all__ = ["MtEecCsc"]
 class MtEecState(enum.IntEnum):
     """State constants. Should get these from SALPY?
     """
-    NOTSET = SALPY_MTEEC.state_NotSet
+    NOTSET = SALPY_MTEEC.detailedState_NotSetState
     """  detailed state not set  cannot be run."""
-    DAY = SALPY_MTEEC.state_Day
+    DAY = SALPY_MTEEC.detailedState_DaySetState
     """Script is configured and so can be run."""
-    NIGHT = SALPY_MTEEC.state_Night
+    NIGHT = SALPY_MTEEC.detailedState_NightSetState
 
 
 class MtEecCsc(salobj.BaseCsc):
@@ -48,7 +48,7 @@ class MtEecCsc(salobj.BaseCsc):
     def do_applyTemperatureSetpoint(self, id_data):
         """ Check temp and see if we need to move up or downcaseTokens"""
         self.assert_enabled("setTemeratureSetPoint")
-# Should have some model ..
+# Should talk to something here .. .
 
     def do_disableControl(self, id_data):
         """ Check temp and see if we need to move up or downcaseTokens"""

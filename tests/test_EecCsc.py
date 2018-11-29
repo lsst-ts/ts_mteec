@@ -58,6 +58,7 @@ class Harness:
         self.remote = salobj.Remote(self.cscName, self.index)
 
 
+@unittest
 class CommunicateTestCase(unittest.TestCase):
 
     def test_heartbeat(self):

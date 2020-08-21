@@ -8,6 +8,4 @@ import lsst.ts.mteec
 
 
 _g = globals()
-_g.update(build_package_configs(
-    project_name='ts_mteec',
-    version=lsst.ts.mteec.version.__version__))
+_g.update(build_package_configs(project_name="ts_mteec", version=lsst.ts.mteec.__version__))

@@ -1,12 +1,51 @@
-##############################
-ts_mteec documentation preview
-##############################
+.. py:currentmodule:: lsst.ts.mteec
 
-.. This page is for local development only. It isn't published to pipelines.lsst.io.
+.. _lsst.ts.mteec:
 
-.. Link the index pages of package and module documentation directions (listed in manifest.yaml).
+#############
+lsst.ts.mteec
+#############
 
-.. toctree::
-   :maxdepth: 1
+.. Paragraph that describes what this Python module does and links to related modules and frameworks.
 
-   lsst.ts.mteec/index
+.. .. _lsst.ts.mteec-using:
+
+.. Using lsst.ts.mteec
+.. =================
+
+.. toctree linking to topics related to using the module's APIs.
+
+.. .. toctree::
+..    :maxdepth: 1
+
+.. _lsst.ts.mteec-contributing:
+
+Contributing
+============
+
+``lsst.ts.mteec`` is developed at https://github.com/lsst-ts/ts_mteec.
+You can find Jira issues for this module under the `ts_mteec <https://jira.lsstcorp.org/issues/?jql=project%20%3D%20DM%20AND%20component%20%3D%20ts_mteec>`_ component.
+
+.. If there are topics related to developing this module (rather than using it), link to this from a toctree placed here.
+
+.. .. toctree::
+..    :maxdepth: 1
+
+.. .. _lsst.ts.mteec-scripts:
+
+.. Script reference
+.. ================
+
+.. .. TODO: Add an item to this toctree for each script reference topic in the scripts subdirectory.
+
+.. .. toctree::
+..    :maxdepth: 1
+
+.. .. _lsst.ts.mteec-pyapi:
+
+Python API reference
+====================
+
+.. automodapi:: lsst.ts.mteec
+   :no-main-docstr:
+   :no-inheritance-diagram:

@@ -43,9 +43,9 @@ pipeline {
                     conda config --add channels conda-forge
                     conda config --add channels lsstts
                     source ${OSPL_HOME}/release.com
-                    source /home/saluser/.setup.sh
                     cd $WORKSPACE/ts_mteec
-                    setup -r .
+                    export PATH=${PATH}:`pwd`/bin
+                    export PYTHONPATH=${PYTHONPATH}:`pwd`/python
                     conda build --prefix-length 100 .
                     """
                 }
@@ -65,6 +65,9 @@ pipeline {
                         conda config --add channels conda-forge
                         conda config --add channels lsstts
                         source ${OSPL_HOME}/release.com
+                        cd $WORKSPACE/ts_mteec
+                        export PATH=${PATH}:`pwd`/bin
+                        export PYTHONPATH=${PYTHONPATH}:`pwd`/python
                         conda build -c lsstts/label/dev --prefix-length 100 .
                     """
                 }

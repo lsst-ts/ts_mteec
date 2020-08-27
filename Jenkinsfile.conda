@@ -36,17 +36,14 @@ pipeline {
                 buildingTag()
             }
             steps {
-                withEnv(["HOME=${env.WORKSPACE}"]) {
+                withEnv(["HOME=${env.WORKSPACE}", 'PATH=${PATH}:${HOME}/ts_mteec/bin', ''PYTHONPATH=${PYTHONPATH}:${HOME}/ts_mteec/python']) {
                     sh """
                     cd ${HOME}/conda
                     source /home/saluser/miniconda3/bin/activate
                     conda config --add channels conda-forge
                     conda config --add channels lsstts
                     source ${OSPL_HOME}/release.com
-                    cd $WORKSPACE/ts_mteec
-                    withEnv(['PATH=${PATH}:`pwd`/bin', ''PYTHONPATH=${PYTHONPATH}:`pwd`/python']) {
-                        conda build --prefix-length 100 .
-                    }
+                    conda build --prefix-length 100 .
                     """
                 }
             }
@@ -58,16 +55,13 @@ pipeline {
                 }
             }
             steps {
-                withEnv(["HOME=${env.WORKSPACE}"]) {
+                withEnv(["HOME=${env.WORKSPACE}", 'PATH=${PATH}:${HOME}/ts_mteec/bin', ''PYTHONPATH=${PYTHONPATH}:${HOME}/ts_mteec/python']) {
                     sh """
                         cd ${HOME}/conda
                         source /home/saluser/miniconda3/bin/activate
                         conda config --add channels conda-forge
                         conda config --add channels lsstts
                         source ${OSPL_HOME}/release.com
-                        cd $WORKSPACE/ts_mteec
-                        export PATH=$PATH:`pwd`/bin
-                        export PYTHONPATH=$PYTHONPATH:`pwd`/python
                         conda build -c lsstts/label/dev --prefix-length 100 .
                     """
                 }

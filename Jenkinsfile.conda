@@ -44,9 +44,9 @@ pipeline {
                     conda config --add channels lsstts
                     source ${OSPL_HOME}/release.com
                     cd $WORKSPACE/ts_mteec
-                    export PATH=${PATH}:`pwd`/bin
-                    export PYTHONPATH=${PYTHONPATH}:`pwd`/python
-                    conda build --prefix-length 100 .
+                    withEnv(['PATH=${PATH}:`pwd`/bin', ''PYTHONPATH=${PYTHONPATH}:`pwd`/python']) {
+                        conda build --prefix-length 100 .
+                    }
                     """
                 }
             }

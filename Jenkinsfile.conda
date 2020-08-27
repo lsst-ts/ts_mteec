@@ -36,7 +36,7 @@ pipeline {
                 buildingTag()
             }
             steps {
-                withEnv(["HOME=${env.WORKSPACE}", 'PATH=${PATH}:${HOME}/ts_mteec/bin', 'PYTHONPATH=${PYTHONPATH}:${HOME}/ts_mteec/python']) {
+                withEnv(["HOME=${env.WORKSPACE}", "PATH=${PATH}:${HOME}/ts_mteec/bin", "PYTHONPATH=${PYTHONPATH}:${HOME}/ts_mteec/python"]) {
                     sh """
                     cd ${HOME}/conda
                     source /home/saluser/miniconda3/bin/activate
@@ -55,7 +55,7 @@ pipeline {
                 }
             }
             steps {
-                withEnv(["HOME=${env.WORKSPACE}", 'PATH=${PATH}:${HOME}/ts_mteec/bin', 'PYTHONPATH=${PYTHONPATH}:${HOME}/ts_mteec/python']) {
+                withEnv(["HOME=${env.WORKSPACE}", "PATH=${PATH}:${HOME}/ts_mteec/bin", "PYTHONPATH=${PYTHONPATH}:${HOME}/ts_mteec/python"]) {
                     sh """
                         cd ${HOME}/conda
                         source /home/saluser/miniconda3/bin/activate

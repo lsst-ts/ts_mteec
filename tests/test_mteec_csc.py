@@ -25,17 +25,23 @@ import logging
 from lsst.ts import salobj
 from lsst.ts import mteec
 
-logging.basicConfig(format="%(asctime)s:%(levelname)s:%(name)s:%(message)s", level=logging.DEBUG)
+logging.basicConfig(
+    format="%(asctime)s:%(levelname)s:%(name)s:%(message)s", level=logging.DEBUG
+)
 
 
 class CscTestCase(salobj.BaseCscTestCase, asynctest.TestCase):
     def basic_make_csc(self, initial_state, config_dir, simulation_mode, **kwargs):
         return mteec.MtEecCsc(
-            initial_state=initial_state, config_dir=config_dir, simulation_mode=simulation_mode,
+            initial_state=initial_state,
+            config_dir=config_dir,
+            simulation_mode=simulation_mode,
         )
 
     async def test_standard_state_transitions(self):
-        async with self.make_csc(initial_state=salobj.State.STANDBY, config_dir=None, simulation_mode=1):
+        async with self.make_csc(
+            initial_state=salobj.State.STANDBY, config_dir=None, simulation_mode=1
+        ):
             await self.check_standard_state_transitions(
                 enabled_commands=(
                     "do_applyTemperatureSetpoint",
@@ -43,6 +49,16 @@ class CscTestCase(salobj.BaseCscTestCase, asynctest.TestCase):
                     "do_setToDayTime",
                     "do_setToNightTime",
                 ),
+            )
+
+    async def test_version(self):
+        async with self.make_csc(
+            initial_state=salobj.State.STANDBY, config_dir=None, simulation_mode=1
+        ):
+            await self.assert_next_sample(
+                self.remote.evt_softwareVersions,
+                cscVersion=mteec.__version__,
+                subsystemVersions="",
             )
 
     async def test_bin_script(self):

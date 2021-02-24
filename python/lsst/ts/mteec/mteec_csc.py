@@ -1,6 +1,6 @@
 # This file is part of ts_mteec.
 #
-# Developed for the Telescope and Site team.
+# Developed for the Vera Rubin Observatory Telescope and Site Systems.
 # This product includes software developed by the LSST Project
 # (https://www.lsst.org).
 # See the COPYRIGHT file at the top-level directory of this distribution
@@ -21,8 +21,8 @@
 
 __all__ = ["MtEecCsc"]
 
-import pathlib
-
+from .config_schema import CONFIG_SCHEMA
+from . import __version__
 from lsst.ts import salobj
 
 
@@ -40,16 +40,18 @@ class MtEecCsc(salobj.ConfigurableCsc):
         Simulation mode (1) or not (0)
     """
 
+    valid_simulation_modes = (0, 1)
+    version = __version__
+
     def __init__(
         self, config_dir=None, initial_state=salobj.State.STANDBY, simulation_mode=0,
     ):
-        schema_path = pathlib.Path(__file__).resolve().parents[4].joinpath("schema", "mteec.yaml")
         self.config = None
         self._config_dir = config_dir
         super().__init__(
             name="MTEEC",
             index=0,
-            schema_path=schema_path,
+            config_schema=CONFIG_SCHEMA,
             config_dir=config_dir,
             initial_state=initial_state,
             simulation_mode=simulation_mode,
@@ -109,10 +111,6 @@ class MtEecCsc(salobj.ConfigurableCsc):
     async def configure(self, config):
         self.config = config
 
-    async def implement_simulation_mode(self, simulation_mode):
-        if simulation_mode not in (0, 1):
-            raise salobj.ExpectedError(f"Simulation_mode={simulation_mode} must be 0 or 1")
-
     @property
     def connected(self):
         # TODO Add code to determine if the CSC is connected or not.
@@ -121,13 +119,3 @@ class MtEecCsc(salobj.ConfigurableCsc):
     @staticmethod
     def get_config_pkg():
         return "ts_config_ocs"
-
-    @classmethod
-    def add_arguments(cls, parser):
-        super(MtEecCsc, cls).add_arguments(parser)
-        parser.add_argument("-s", "--simulate", action="store_true", help="Run in simuation mode?")
-
-    @classmethod
-    def add_kwargs_from_args(cls, args, kwargs):
-        super(MtEecCsc, cls).add_kwargs_from_args(args, kwargs)
-        kwargs["simulation_mode"] = 1 if args.simulate else 0

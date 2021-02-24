@@ -1,4 +1,3 @@
-import os
 import sys
 import setuptools
 import pathlib
@@ -27,7 +26,7 @@ setuptools.setup(
     package_dir={"": "python"},
     packages=setuptools.find_namespace_packages(where="python"),
     package_data={"": ["*.rst", "*.yaml", "*.xml"]},
-    data_files=[(os.path.join(data_files_path, "schema"), ["schema/mteec.yaml"])],
+    data_files=[],
     scripts=["bin/run_mteec.py"],
     tests_require=tests_require,
     extras_require={"dev": dev_requires},

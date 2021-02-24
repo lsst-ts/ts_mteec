@@ -49,3 +49,10 @@ Python API reference
 .. automodapi:: lsst.ts.mteec
    :no-main-docstr:
    :no-inheritance-diagram:
+
+Version History
+===============
+
+.. toctree::
+    version_history
+    :maxdepth: 1

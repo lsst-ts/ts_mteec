@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # This file is part of ts_mteec.
 #
 # Developed for the Vera Rubin Observatory Telescope and Site Systems.
@@ -21,16 +19,32 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-"""Sphinx configuration file for an LSST stack package.
+__all__ = ["CONFIG_SCHEMA"]
 
-This configuration only affects single-package Sphinx documentation builds.
-"""
+import yaml
 
-from documenteer.conf.pipelinespkg import *  # noqa
-import lsst.ts.mteec  # noqa
-
-project = "ts_mteec"
-html_theme_options["logotext"] = project  # noqa
-html_title = project
-html_short_title = project
-doxylink = {}  # Avoid warning: Could not find tag file _doxygen/doxygen.tag
+CONFIG_SCHEMA = yaml.safe_load(
+    """
+    $schema: http://json-schema.org/draft-07/schema#
+    $id: https://github.com/lsst-ts/ts_mteec/blob/master/python/lsst/ts/mteec/config_schema.py
+    # title must end with one or more spaces followed by the schema version, which must begin with "v"
+    title: MTEEC v1
+    description: Schema for MTEEC configuration files
+    type: object
+    properties:
+      connection_timeout:
+        description: Time limit for connecting to the TCP/IP interface (sec)
+        type: number
+        exclusiveMinimum: 0
+        default: 10
+      read_timeout:
+        description: Time limit for reading data from the TCP/IP interface (sec)
+        type: number
+        exclusiveMinimum: 0
+        default: 10
+    required:
+      - connection_timeout
+      - read_timeout
+    additionalProperties: false
+    """
+)

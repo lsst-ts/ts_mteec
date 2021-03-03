@@ -1,9 +1,8 @@
 .sconsign.dblite
-bin.src
-bin/
 *.log
 pytest_session.txt
 *__pycache__*
 tests/.tests/
 version.py
 .cache
+.idea/

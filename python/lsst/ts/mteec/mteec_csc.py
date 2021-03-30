@@ -44,7 +44,10 @@ class MtEecCsc(salobj.ConfigurableCsc):
     version = __version__
 
     def __init__(
-        self, config_dir=None, initial_state=salobj.State.STANDBY, simulation_mode=0,
+        self,
+        config_dir=None,
+        initial_state=salobj.State.STANDBY,
+        simulation_mode=0,
     ):
         self.config = None
         self._config_dir = config_dir
@@ -77,8 +80,7 @@ class MtEecCsc(salobj.ConfigurableCsc):
             pass
 
     async def disconnect(self):
-        """Disconnect the MTEEC CSC, if connected.
-        """
+        """Disconnect the MTEEC CSC, if connected."""
         self.log.info("Disconnecting")
 
     async def do_applyTemperatureSetpoint(self, data):

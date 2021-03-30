@@ -19,8 +19,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import asynctest
 import logging
+import unittest
 
 from lsst.ts import salobj
 from lsst.ts import mteec
@@ -30,7 +30,7 @@ logging.basicConfig(
 )
 
 
-class CscTestCase(salobj.BaseCscTestCase, asynctest.TestCase):
+class CscTestCase(salobj.BaseCscTestCase, unittest.IsolatedAsyncioTestCase):
     def basic_make_csc(self, initial_state, config_dir, simulation_mode, **kwargs):
         return mteec.MtEecCsc(
             initial_state=initial_state,

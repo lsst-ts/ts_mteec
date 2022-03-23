@@ -26,9 +26,9 @@ import yaml
 CONFIG_SCHEMA = yaml.safe_load(
     """
     $schema: http://json-schema.org/draft-07/schema#
-    $id: https://github.com/lsst-ts/ts_mteec/blob/master/python/lsst/ts/mteec/config_schema.py
+    $id: https://github.com/lsst-ts/ts_mteec/blob/main/python/lsst/ts/mteec/config_schema.py
     # title must end with one or more spaces followed by the schema version, which must begin with "v"
-    title: MTEEC v1
+    title: MTEEC v2
     description: Schema for MTEEC configuration files
     type: object
     properties:
@@ -36,12 +36,10 @@ CONFIG_SCHEMA = yaml.safe_load(
         description: Time limit for connecting to the TCP/IP interface (sec)
         type: number
         exclusiveMinimum: 0
-        default: 10
       read_timeout:
         description: Time limit for reading data from the TCP/IP interface (sec)
         type: number
         exclusiveMinimum: 0
-        default: 10
     required:
       - connection_timeout
       - read_timeout

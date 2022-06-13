@@ -22,10 +22,9 @@ build:
 test:
   requires:
     - ts-conda-build =0.3
-    - ts-simactuators
-    - ts-dds
     - ts-idl {{ idl_version }}
     - ts-salobj {{ salobj_version }}
+    - ts-dds
   source_files:
     - python
     - bin
@@ -46,5 +45,5 @@ requirements:
     - python
     - setuptools
     - setuptools_scm
-    - ts-salobj
-    - ts-simactuators
+    - ts-idl {{ idl_version }}
+    - ts-salobj {{ salobj_version }}

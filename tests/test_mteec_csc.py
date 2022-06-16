@@ -66,4 +66,4 @@ class CscTestCase(salobj.BaseCscTestCase, unittest.IsolatedAsyncioTestCase):
             )
 
     async def test_bin_script(self):
-        await self.check_bin_script(name="MTEEC", index=None, exe_name="run_mteec.py")
+        await self.check_bin_script(name="MTEEC", index=None, exe_name="run_mteec")

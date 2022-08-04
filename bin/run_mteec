@@ -23,5 +23,4 @@
 
 from lsst.ts.mteec.mteec_csc import run_mteec
 
-
 run_mteec()

@@ -22,8 +22,7 @@
 import logging
 import unittest
 
-from lsst.ts import salobj
-from lsst.ts import mteec
+from lsst.ts import mteec, salobj
 
 logging.basicConfig(
     format="%(asctime)s:%(levelname)s:%(name)s:%(message)s", level=logging.DEBUG

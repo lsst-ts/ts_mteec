@@ -17,7 +17,7 @@ version = { attr = "setuptools_scm.get_version" }
 where = [ "python" ]
 
 [project.scripts]
-run_mteec = "lsst.ts.mteec.cli:execute_csc"
+run_mteec = "lsst.ts.mteec.mteec_csc:run_mteec"
 
 [tool.setuptools_scm]
 write_to = "python/lsst/ts/mteec/version.py"

@@ -22,6 +22,8 @@
 __all__ = ["MtEecCsc", "run_mteec"]
 
 import asyncio
+import typing
+from types import SimpleNamespace
 
 from lsst.ts import salobj
 
@@ -55,12 +57,12 @@ class MtEecCsc(salobj.ConfigurableCsc):
 
     def __init__(
         self,
-        config_dir=None,
-        initial_state=salobj.State.STANDBY,
-        simulation_mode=0,
-        override="",
-    ):
-        self.config = None
+        config_dir: typing.Optional[str] = None,
+        initial_state: salobj.State = salobj.State.STANDBY,
+        simulation_mode: int = 0,
+        override: str = "",
+    ) -> None:
+        self.config: typing.Optional[SimpleNamespace] = None
         self._config_dir = config_dir
         super().__init__(
             name="MTEEC",
@@ -73,7 +75,7 @@ class MtEecCsc(salobj.ConfigurableCsc):
         )
         self.log.info("__init__")
 
-    async def connect(self):
+    async def connect(self) -> None:
         """Start the MTEEC MQTT client or start the mock client, if in
         simulation mode.
         """
@@ -91,27 +93,27 @@ class MtEecCsc(salobj.ConfigurableCsc):
             # TODO Add code for non-simulation case
             pass
 
-    async def disconnect(self):
+    async def disconnect(self) -> None:
         """Disconnect the MTEEC CSC, if connected."""
         self.log.info("Disconnecting")
 
-    async def do_applyTemperatureSetpoint(self, data):
+    async def do_applyTemperatureSetpoint(self, data: SimpleNamespace) -> None:
         self.assert_enabled()
         raise salobj.ExpectedError("Not implemented yet.")
 
-    async def do_disableControl(self, data):
+    async def do_disableControl(self, data: SimpleNamespace) -> None:
         self.assert_enabled()
         raise salobj.ExpectedError("Not implemented yet.")
 
-    async def do_setToDayTime(self, data):
+    async def do_setToDayTime(self, data: SimpleNamespace) -> None:
         self.assert_enabled()
         raise salobj.ExpectedError("Not implemented yet.")
 
-    async def do_setToNightTime(self, data):
+    async def do_setToNightTime(self, data: SimpleNamespace) -> None:
         self.assert_enabled()
         raise salobj.ExpectedError("Not implemented yet.")
 
-    async def handle_summary_state(self):
+    async def handle_summary_state(self) -> None:
         """Override of the handle_summary_state function to connect or
         disconnect to the MTEEC CSC (or the mock client) when needed.
         """
@@ -122,14 +124,14 @@ class MtEecCsc(salobj.ConfigurableCsc):
         else:
             await self.disconnect()
 
-    async def configure(self, config):
+    async def configure(self, config: SimpleNamespace) -> None:
         self.config = config
 
     @property
-    def connected(self):
+    def connected(self) -> bool:
         # TODO Add code to determine if the CSC is connected or not.
         return True
 
     @staticmethod
-    def get_config_pkg():
+    def get_config_pkg() -> str:
         return "ts_config_ocs"

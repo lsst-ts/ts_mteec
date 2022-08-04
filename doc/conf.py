@@ -30,7 +30,8 @@ import lsst.ts.mteec  # noqa
 from documenteer.conf.pipelinespkg import *  # noqa
 
 project = "ts_mteec"
-html_theme_options["logotext"] = project  # noqa
+html_theme_options["logotext"] = project  # type: ignore # noqa
 html_title = project
 html_short_title = project
-doxylink = {}  # Avoid warning: Could not find tag file _doxygen/doxygen.tag
+html_static_path = ["_static"]
+html_css_files = ["mystyle.css"]

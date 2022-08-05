@@ -24,6 +24,5 @@ try:
 except ModuleNotFoundError:
     __version__ = "?"
 
-from .cli import execute_csc
 from .config_schema import CONFIG_SCHEMA
 from .mteec_csc import *

@@ -6,6 +6,16 @@
 Version History
 ###############
 
+v0.5.2
+======
+
+* Updated ts-conda-build dependency version and conda build string.
+
+Requires:
+
+* ts_salobj 7.0
+* ts_xml
+
 v0.5.1
 ======
 

@@ -6,3 +6,7 @@ tests/.tests/
 version.py
 .cache
 .idea/
+.pre-commit-config.yaml
+.flake8
+.isort.cfg
+.mypy.ini
